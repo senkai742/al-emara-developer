@@ -119,30 +119,14 @@ class LoginController extends Controller
         cache(['password_reset_' . $token => $user->id], now()->addHour());
         cache(['password_reset_email_' . $request->email => $token], now()->addHour());
 
-        // Debug info collection
-        $debugInfo = [];
-        $debugInfo[] = "Mailer: " . config('mail.default');
-        $debugInfo[] = "Host: " . config('mail.mailers.smtp.host');
-        $debugInfo[] = "Port: " . config('mail.mailers.smtp.port');
-        $debugInfo[] = "Encryption: " . config('mail.mailers.smtp.encryption');
-        $debugInfo[] = "Username: " . config('mail.mailers.smtp.username');
-        $debugInfo[] = "From: " . config('mail.from.address');
-        $debugInfo[] = "To: " . $user->email;
-
         try {
             Mail::to($user->email)->send(new PasswordResetMail($token, $user->email));
 
-            $debugInfo[] = "Result: Mail::send() returned without exception";
-            $debugInfo[] = "Note: SMTP accepted the message but delivery is not guaranteed";
-
             return back()
-                ->with('status', 'Password reset link has been sent! Check spam folder if not received.')
-                ->with('debug', implode(" | ", $debugInfo));
+                ->with('status', 'Password reset link has been sent! Check spam folder if not received.');
         } catch (\Exception $e) {
-            $debugInfo[] = "ERROR: " . $e->getMessage();
             return back()
-                ->withErrors(['email' => $e->getMessage()])
-                ->with('debug', implode(" | ", $debugInfo));
+                ->withErrors(['email' => $e->getMessage()]);
         }
     }
 
