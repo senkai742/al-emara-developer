@@ -1,0 +1,17 @@
+{
+  "worktrees": {
+    "wt-1776176854397-1": {
+      "branch": "raspy-rib",
+      "path": "/home/senpai/Dev/Laravel/al-emara-developer/.kilo/worktrees/raspy-rib",
+      "parentBranch": "main",
+      "createdAt": "2026-04-14T14:27:34.397Z",
+      "remote": "origin"
+    }
+  },
+  "sessions": {
+    "ses_2739c09eeffeyXzvGmIiqN3iAV": {
+      "worktreeId": "wt-1776176854397-1",
+      "createdAt": "2026-04-14T14:27:34.629Z"
+    }
+  }
+}

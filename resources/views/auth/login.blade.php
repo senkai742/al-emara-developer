@@ -48,6 +48,13 @@
                 <p class="text-sm text-gray-500 mt-2">Please enter your details to sign in.</p>
             </div>
 
+            <!-- Success Message -->
+            @if(session('success'))
+                <div class="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <p class="text-sm text-green-700">{{ session('success') }}</p>
+                </div>
+            @endif
+
             <!-- Error Messages -->
             @if($errors->any())
                 <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
@@ -95,6 +102,9 @@
                             Remember me
                         </label>
                     </div>
+                    <a href="{{ route('password.request') }}" class="text-sm text-[#3eb27e] hover:text-[#2a7a56] font-medium">
+                        Forgot password?
+                    </a>
                 </div>
 
                 <!-- Submit -->

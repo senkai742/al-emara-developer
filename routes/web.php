@@ -25,6 +25,12 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [LoginController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [LoginController::class, 'register']);
 
+// Forgot Password Routes
+Route::get('/forgot-password', [LoginController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('/forgot-password', [LoginController::class, 'sendResetLink'])->name('password.email');
+Route::get('/reset-password/{token}', [LoginController::class, 'showResetPasswordForm'])->name('password.reset');
+Route::post('/reset-password', [LoginController::class, 'resetPassword'])->name('password.update');
+
 Route::middleware(['auth.custom'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -115,4 +121,18 @@ Route::get('/clear-cache', function () {
     Artisan::call('config:clear');
 
     return 'All caches cleared!';
+});
+
+Route::get('/check-mail-config', function () {
+    return response()->json([
+        'mailer' => config('mail.default'),
+        'smtp_host' => config('mail.mailers.smtp.host'),
+        'smtp_port' => config('mail.mailers.smtp.port'),
+        'smtp_encryption' => config('mail.mailers.smtp.encryption'),
+        'smtp_username' => config('mail.mailers.smtp.username'),
+        'smtp_password' => config('mail.mailers.smtp.password') ? '***set***' : '***NOT SET***',
+        'from_address' => config('mail.from.address'),
+        'from_name' => config('mail.from.name'),
+        'env_app_url' => config('app.url'),
+    ]);
 });
